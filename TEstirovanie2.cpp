@@ -38,6 +38,38 @@ int sizechecker()
 	return n;
 }
 
+int checkelem(int n)
+{
+	int elem;
+
+	std::cout << "Type element: ";
+
+	while (true)
+	{
+		try
+		{
+			if (!(std::cin >> elem))
+			{
+				std::cin.clear();
+
+				while (std::cin.get() != '\n');
+
+				throw "element is non digit!";
+			}
+			else
+				break;
+		}
+
+		catch (const char* exception)
+		{
+			std::cout << exception << '\n';
+
+			std::cout << "Type new element: ";
+		}
+	}
+	return elem;
+}
+
 double checkparam(int n)
 {
 	double param;
@@ -105,11 +137,20 @@ int main()
 	int* arr = new int[n];
 
 	for (int i = 0; i < n; i++)
-		std::cin >> arr[i];
-
+		//std::cin >> arr[i];
+		arr[i] = checkelem(n);
+	
+	here:
 	A = checkparam(n);
 
 	B = checkparam(n);
+
+	if (A == B || A > B)
+	{
+		std::cout << "Parameter A should be less than B!\n";
+
+		goto here;
+	}
 
 	finder(A, B, n, arr);
 
